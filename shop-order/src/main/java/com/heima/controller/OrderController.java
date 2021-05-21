@@ -4,6 +4,8 @@ import com.heima.entity.Order;
 import com.heima.entity.Product;
 import com.heima.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.ServiceInstance;
+import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,11 +24,18 @@ public class OrderController {
     @Autowired
     private OrderService orderService;
 
+    @Autowired
+    private DiscoveryClient discoveryClient;
+
     @GetMapping("/order/prod/{pid}")
     public Order order(@PathVariable("pid") Integer pid) {
+        ServiceInstance serviceInstance =
+                discoveryClient.getInstances("service-product").get(0);
+        String url = serviceInstance.getHost() + ":" +
+                serviceInstance.getPort();
         //通过restTemplate调用商品微服务
         Product product = restTemplate.getForObject(
-                "http://127.0.0.1:8081/product/" + pid, Product.class);
+                "http://" + url + "/product/" + pid, Product.class);
         if (product == null) {
             return null;
         }

@@ -1,11 +1,15 @@
 server:
   port: 8081
 spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.56.10:8848
   application:
     name: service-product
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql:///shop?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8&useSSL=true
+    url: jdbc:mysql://127.0.0.1:3306/shop?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8&useSSL=true
     username: root
     password: password
   jpa:
