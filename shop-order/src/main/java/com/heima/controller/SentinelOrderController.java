@@ -21,13 +21,22 @@ public class SentinelOrderController {
 
     @GetMapping("/order/message1")
     public String message1() {
+        try {
+            Thread.sleep(300);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         sentinelOrderService.message();
         return "message1";
     }
 
+    int i = 0;
     @GetMapping("/order/message2")
     public String message2() {
-        sentinelOrderService.message();
+        i++;
+        if (i % 3 == 0) {
+            throw new RuntimeException();
+        }
         return "message2";
     }
 }
