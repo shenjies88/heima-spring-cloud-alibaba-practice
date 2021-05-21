@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
  * @author shenjies88
  * @since 2021/5/21-3:12 下午
  */
-@FeignClient("service-product")
+@FeignClient(value = "service-product", fallbackFactory = ProductClientFallBack.class)
 public interface ProductClient {
 
     @GetMapping(value = "/product/{pid}")

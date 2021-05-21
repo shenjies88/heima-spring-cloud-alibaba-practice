@@ -33,6 +33,11 @@ public class OrderController {
         if (product == null) {
             return null;
         }
+        if (product.getPid() == -1) {
+            Order order = new Order();
+            order.setPname("下单失败");
+            return order;
+        }
         Order order = new Order();
         order.setUid(1);
         order.setUsername("测试用户");

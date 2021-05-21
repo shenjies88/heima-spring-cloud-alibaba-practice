@@ -23,3 +23,7 @@ spring:
         hbm2ddl:
           auto: update
         dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+
+feign:
+  sentinel:
+    enabled: true
