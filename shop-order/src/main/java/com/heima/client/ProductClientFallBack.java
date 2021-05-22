@@ -12,14 +12,11 @@ import org.springframework.stereotype.Component;
 public class ProductClientFallBack implements FallbackFactory<ProductClient> {
     @Override
     public ProductClient create(Throwable cause) {
-        return new ProductClient() {
-            @Override
-            public Product findByPid(Integer pid) {
-                cause.printStackTrace();
-                Product product = new Product();
-                product.setPid(-1);
-                return product;
-            }
+        return pid -> {
+            cause.printStackTrace();
+            Product product = new Product();
+            product.setPid(-1);
+            return product;
         };
     }
 }

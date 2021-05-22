@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
  * @since 2021/5/21-10:42 下午
  */
 @Component
-public class ExceptionHandlerPage implements BlockExceptionHandler {
+public class SentinelExceptionHandler implements BlockExceptionHandler {
     @Override
     public void handle(HttpServletRequest httpServletRequest, HttpServletResponse response, BlockException ex) throws Exception {
         String msg = null;
