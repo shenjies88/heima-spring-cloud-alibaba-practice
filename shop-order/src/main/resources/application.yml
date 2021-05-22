@@ -6,6 +6,14 @@ spring:
       transport:
         port: 9999
         dashboard: 192.168.56.10:8080
+      datasource:
+        flow-ds:
+          nacos:
+            server-addr: 192.168.56.10:8848
+            dataId: ${spring.application.name}-flow-rule
+            groupId: DEFAULT_GROUP
+            rule-type: flow
+            data-type: json
     nacos:
       discovery:
         server-addr: 192.168.56.10:8848
