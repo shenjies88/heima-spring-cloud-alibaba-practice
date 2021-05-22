@@ -4,6 +4,21 @@ spring:
   application:
     name: api-gateway
   cloud:
+    sentinel:
+      eager: true
+      filter:
+        enabled: false
+      transport:
+        port: 17000
+        dashboard: 192.168.56.10:8080
+      datasource:
+        gateway-flow-ds:
+          nacos:
+            server-addr: ${spring.cloud.nacos.discovery.server-addr}
+            dataId: ${spring.application.name}-flow-rule
+            groupId: DEFAULT_GROUP
+            rule-type: gw-flow
+            data-type: json
     nacos:
       discovery:
         server-addr: 192.168.56.10:8848
