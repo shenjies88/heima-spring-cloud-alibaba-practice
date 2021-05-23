@@ -1,7 +1,7 @@
 package com.heima.client;
 
 import com.heima.entity.Product;
-import org.springframework.cloud.openfeign.FallbackFactory;
+import feign.hystrix.FallbackFactory;
 import org.springframework.stereotype.Component;
 
 /**

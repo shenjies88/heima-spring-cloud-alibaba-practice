@@ -1,7 +1,7 @@
 package com.heima;
 
-import com.alibaba.cloud.commons.lang.StringUtils;
 import com.alibaba.fastjson.JSON;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;

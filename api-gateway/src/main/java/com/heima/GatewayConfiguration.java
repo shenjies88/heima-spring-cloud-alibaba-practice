@@ -91,7 +91,7 @@ public class GatewayConfiguration {
             return ServerResponse
                     .status(HttpStatus.OK)
                     .contentType(MediaType.APPLICATION_JSON)
-                    .body(BodyInserters.fromValue(map));
+                    .body(BodyInserters.fromObject(map));
         };
         GatewayCallbackManager.setBlockHandler(blockRequestHandler);
     }
