@@ -1,7 +1,6 @@
 package com.heima;
 
 import com.alibaba.fastjson.JSON;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
@@ -28,7 +27,7 @@ public class AuthGlobalFilter implements GlobalFilter, Ordered {
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         String token = exchange.getRequest().getQueryParams().getFirst("token");
-        if (StringUtils.isBlank(token)) {
+        if (token == null || token.equals("")) {
             Map<String, Object> map = new HashMap<>();
             map.put("code", 1);
             map.put("message", "接口无权限");

@@ -1,6 +1,6 @@
 package com.heima.config;
 
-import com.alibaba.csp.sentinel.adapter.servlet.callback.UrlBlockHandler;
+import com.alibaba.csp.sentinel.adapter.spring.webmvc.callback.BlockExceptionHandler;
 import com.alibaba.csp.sentinel.slots.block.BlockException;
 import com.alibaba.csp.sentinel.slots.block.authority.AuthorityException;
 import com.alibaba.csp.sentinel.slots.block.degrade.DegradeException;
@@ -22,10 +22,10 @@ import java.util.Map;
  * @since 2021/5/21-10:42 下午
  */
 @Component
-public class SentinelExceptionHandler implements UrlBlockHandler {
+public class SentinelExceptionHandler implements BlockExceptionHandler {
 
     @Override
-    public void blocked(HttpServletRequest httpServletRequest, HttpServletResponse response, BlockException ex) throws IOException {
+    public void handle(HttpServletRequest httpServletRequest, HttpServletResponse response, BlockException ex) throws IOException {
         Map<String, Object> map = new HashMap<>();
         String msg = null;
         if (ex instanceof FlowException) {
