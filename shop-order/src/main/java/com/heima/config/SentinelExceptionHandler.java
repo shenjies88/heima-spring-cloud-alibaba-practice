@@ -8,10 +8,13 @@ import com.alibaba.csp.sentinel.slots.block.flow.FlowException;
 import com.alibaba.csp.sentinel.slots.block.flow.param.ParamFlowException;
 import com.alibaba.csp.sentinel.slots.system.SystemBlockException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author shenjies88
@@ -21,6 +24,7 @@ import javax.servlet.http.HttpServletResponse;
 public class SentinelExceptionHandler implements BlockExceptionHandler {
     @Override
     public void handle(HttpServletRequest httpServletRequest, HttpServletResponse response, BlockException ex) throws Exception {
+        Map<String, Object> map = new HashMap<>();
         String msg = null;
         if (ex instanceof FlowException) {
             msg = "限流了";
@@ -34,11 +38,13 @@ public class SentinelExceptionHandler implements BlockExceptionHandler {
             msg = "授权规则不通过";
         }
         // http状态码
-        response.setStatus(500);
+        response.setStatus(HttpStatus.OK.value());
         response.setCharacterEncoding("utf-8");
         response.setHeader("Content-Type", "application/json;charset=utf-8");
         response.setContentType("application/json;charset=utf-8");
+        map.put("code", 1);
+        map.put("message", msg);
         // spring mvc自带的json操作工具，叫jackson
-        new ObjectMapper().writeValue(response.getWriter(), msg);
+        new ObjectMapper().writeValue(response.getWriter(), map);
     }
 }

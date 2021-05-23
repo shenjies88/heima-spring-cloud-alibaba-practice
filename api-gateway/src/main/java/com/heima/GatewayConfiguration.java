@@ -58,6 +58,16 @@ public class GatewayConfiguration {
                 }));
         GatewayRuleManager.register2Property(dataSource.getProperty());
     }
+//    @PostConstruct
+//    public void initGatewayRules() {
+//        Set<GatewayFlowRule> rules = new HashSet<>();
+//        rules.add(
+//                new GatewayFlowRule("product_route") //资源名称,对应路由id
+//                        .setCount(1) // 限流阈值
+//                        .setIntervalSec(1)// 统计时间窗口，单位是秒，默认是 1 秒
+//        );
+//        GatewayRuleManager.loadRules(rules);
+//    }
 
     /**
      * 配置限流的异常处理器

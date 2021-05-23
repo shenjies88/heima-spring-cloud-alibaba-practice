@@ -33,7 +33,7 @@ public class AuthGlobalFilter implements GlobalFilter, Ordered {
             map.put("code", 1);
             map.put("message", "接口无权限");
             DataBuffer dataBuffer = exchange.getResponse().bufferFactory().wrap(JSON.toJSONString(map).getBytes());
-            exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
+            exchange.getResponse().setStatusCode(HttpStatus.OK);
             return exchange.getResponse().writeWith(Flux.just(dataBuffer));
         }
         //调用chain.filter继续向下游执行
