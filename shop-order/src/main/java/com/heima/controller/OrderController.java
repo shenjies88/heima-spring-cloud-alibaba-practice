@@ -6,10 +6,14 @@ import com.heima.entity.Order;
 import com.heima.entity.Product;
 import com.heima.service.OrderService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.UUID;
 
 /**
  * @author shenjies88
@@ -24,6 +28,9 @@ public class OrderController {
 
     @Autowired
     private OrderService orderService;
+
+    @Autowired
+    private RocketMQTemplate rocketMQTemplate;
 
     @GetMapping("/order/prod/{pid}")
     public Order order(@PathVariable("pid") Integer pid) {
@@ -45,7 +52,15 @@ public class OrderController {
         order.setPname(product.getPname());
         order.setPprice(product.getPprice());
         order.setNumber(1);
-        orderService.save(order);
+        rocketMQTemplate.convertAndSend("order-topic", order);
+        sendTxMessage(order);
         return order;
     }
+
+    private void sendTxMessage(Order order) {
+        String txId = UUID.randomUUID().toString();
+        rocketMQTemplate.sendMessageInTransaction("tx_topic",
+                MessageBuilder.withPayload(order).setHeader("txId", txId).build(), order);
+    }
 }
+

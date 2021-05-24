@@ -38,7 +38,10 @@ spring:
         hbm2ddl:
           auto: update
         dialect: org.hibernate.dialect.MySQL5InnoDBDialect
-
 feign:
   sentinel:
     enabled: true
+rocketmq:
+  name-server: 192.168.56.10:9876
+  producer:
+    group: shop-order
