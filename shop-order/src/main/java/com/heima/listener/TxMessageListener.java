@@ -1,4 +1,4 @@
-package com.heima;
+package com.heima.listener;
 
 import com.heima.dao.TxLogDao;
 import com.heima.entity.Order;
@@ -24,9 +24,9 @@ public class TxMessageListener implements RocketMQLocalTransactionListener {
     private OrderService orderService;
 
     @Override
-    public RocketMQLocalTransactionState executeLocalTransaction(Message msg, Object arg) {
+    public RocketMQLocalTransactionState executeLocalTransaction(Message msg, Object obj) {
         try {
-            orderService.createOrder((String) msg.getHeaders().get("txId"), (Order) arg);
+            orderService.createOrder((String) msg.getHeaders().get("txId"), (Order) obj);
             return RocketMQLocalTransactionState.COMMIT;
         } catch (Exception e) {
             return RocketMQLocalTransactionState.ROLLBACK;
@@ -36,7 +36,7 @@ public class TxMessageListener implements RocketMQLocalTransactionListener {
     @Override
     public RocketMQLocalTransactionState checkLocalTransaction(Message msg) {
         TxLog txLog = txLogDao.findById((String) msg.getHeaders().get("txId")).orElse(null);
-        if (txLog == null) {
+        if (txLog != null) {
             return RocketMQLocalTransactionState.COMMIT;
         } else {
             return RocketMQLocalTransactionState.ROLLBACK;
