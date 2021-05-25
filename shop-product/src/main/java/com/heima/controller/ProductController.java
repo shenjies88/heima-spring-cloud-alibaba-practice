@@ -1,6 +1,7 @@
 package com.heima.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.heima.config.AppConfig;
 import com.heima.entity.Product;
 import com.heima.service.ProductService;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +20,14 @@ public class ProductController {
 
     @Autowired
     private ProductService productService;
+
+    @Autowired
+    private AppConfig appConfig;
+
+    @GetMapping("/product/get-app-config")
+    public String getAppName() {
+        return appConfig.getName();
+    }
 
     @GetMapping("/product/{pid}")
     public Product product(@PathVariable("pid") Integer pid) {
